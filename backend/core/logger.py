@@ -4,13 +4,15 @@ import logging
 import json
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+
+CN_TZ = timezone(timedelta(hours=8))
 
 
 class _JSONFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         payload = {
-            "ts":       datetime.now(timezone.utc).isoformat(),
+            "ts":       datetime.now(CN_TZ).isoformat(),
             "level":    record.levelname.lower(),
             "logger":   record.name,
             "msg":      record.getMessage(),

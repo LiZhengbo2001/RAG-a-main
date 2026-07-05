@@ -3,10 +3,10 @@ import time
 from typing import AsyncIterator
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, desc
-from models.conversation import Conversation, Message
+from models.conversation import Conversation, Message, CN_TZ
 from services.retriever import retrieve
 from core.llm import chat, chat_stream
-from datetime import datetime, timezone
+from datetime import datetime
 from core.query_rewriter import rewrite_query
 from core.intent_router import classify
 from core.logger import logger
@@ -66,7 +66,7 @@ async def run(
     if conv.title == "新对话":
         conv.title = await _generate_title(query, answer)
     db.add(agent_msg)
-    conv.updated_at = datetime.now(timezone.utc)
+    conv.updated_at = datetime.now(CN_TZ)
     await db.commit()
 
     return {
@@ -145,7 +145,7 @@ async def run_stream(
             thinking=[], sources=[], trace=[],
         )
         db.add(agent_msg)
-        conv.updated_at = datetime.now(timezone.utc)
+        conv.updated_at = datetime.now(CN_TZ)
         await db.commit()
         return
 
@@ -270,7 +270,7 @@ async def run_stream(
     if conv.title == "新对话":
         conv.title = await _generate_title(query, full_answer)
     db.add(agent_msg)
-    conv.updated_at = datetime.now(timezone.utc)
+    conv.updated_at = datetime.now(CN_TZ)
     await db.commit()
 
 
@@ -290,7 +290,7 @@ async def _ensure_conversation(
         recent = await db.execute(
             select(Conversation)
             .where(Conversation.visitor_id == visitor_id)
-            .where(Conversation.updated_at > datetime.now(timezone.utc) - timedelta(hours=24))
+            .where(Conversation.updated_at > datetime.now(CN_TZ) - timedelta(hours=24))
             .order_by(Conversation.updated_at.desc())
             .limit(1)
         )

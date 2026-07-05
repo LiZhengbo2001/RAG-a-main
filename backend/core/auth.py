@@ -5,6 +5,8 @@ import bcrypt
 from fastapi.security import HTTPBearer
 from config import JWT_SECRET_KEY, JWT_ALGORITHM, JWT_EXPIRE_MINUTES
 
+CN_TZ = timezone(timedelta(hours=8))
+
 security = HTTPBearer()
 
 
@@ -22,7 +24,7 @@ def verify_password(plain: str, hashed: str) -> bool:
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     to_encode = data.copy()
-    expire = datetime.now(timezone.utc) + (
+    expire = datetime.now(CN_TZ) + (
         expires_delta or timedelta(minutes=JWT_EXPIRE_MINUTES)
     )
     to_encode["exp"] = expire
