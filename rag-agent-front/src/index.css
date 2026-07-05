@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: theme('fontFamily.body');
+    background: theme('colors.surface.muted');
+    color: theme('colors.ink.body');
+    line-height: 1.6;
+    overflow: hidden;
+    height: 100vh;
+  }
+}
+
+@layer components {
+  .scrollbar-thin::-webkit-scrollbar           { width: 5px; }
+  .scrollbar-thin::-webkit-scrollbar-track     { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb     { background: theme('colors.ink.dim'); border-radius: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: theme('colors.ink.muted'); }
+}
