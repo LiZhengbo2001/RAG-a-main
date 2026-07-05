@@ -1,0 +1,154 @@
+{
+  "summary": {
+    "faithfulness": 0.767,
+    "answer_relevancy": 0.85,
+    "context_precision": 0.139,
+    "context_recall": 0.467
+  },
+  "details": [
+    {
+      "question": "什么是自注意力机制",
+      "answer": "自注意力机制是Transformer架构的核心创新之一[1]，由Vaswani等人在2017年提出的《Attention Is All You Need》论文中提出。其核心思想是让输入序列中的每个位置可以直接关注到序列中所有其他位置的信息，从而一步到位地捕获长距离依赖关系。\n\n自注意力的数学模型通过一个“查询-键-值”（Query-Key-Value，简称QKV）映射过程来实现。给定输入序列的表示矩阵X（n×d维，n为序列长度，d为隐藏维度），通过三个可学习的权重矩阵W_Q、W_K、W_V分别映射得到Q、K、V：\n\n\\[ Q = XW_Q \\]\n\\[ K = XW_K \\]\n\\[ V = XW",
+      "faithfulness": 0.8,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.2,
+      "context_recall": 0.7
+    },
+    {
+      "question": "变压器模型里的多头注意力有多少个头",
+      "answer": "参考文档中并未具体说明多头注意力机制中有多少个头（heads），仅提及了“Multi-Head Attention”的概念。根据常见的Transformer架构设计，通常会有多个并行的注意机制分支，每个分支就是一个“头”（head）。因此，实际应用中的头的数量会依据具体的模型设计而定，并不是固定值。\n\n然而，在具体实现中，比如在论文《Attention Is All You Need》中所描述的标准 Transformer 模型里，“Multi-Head Attention”的参数设置通常是8个头[1]。不同任务或模型可能会选择不同数量的注意力头以满足特定需求，但文档并未对此给出明确数值。\n\n",
+      "faithfulness": 0.7,
+      "answer_relevancy": 0.7,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "RAG和长上下文模型是什么关系",
+      "answer": "RAG（检索增强生成）和长上下文模型在某些方面存在互补关系，而不是替代关系[1]。\n\n直接使用长上下文模型具有简单性和灵活性等优势。不过，当输入的查询文本或内容较为复杂时，长上下文模型可能会面临“中间丢失”问题［2,3］。因此，在遇到复杂的、多方面的查询场景时，RAG 可以通过先检索相关文档再将这些文档作为额外的上下文传递给大型语言模型，从而提高生成的答案的准确性和时效性[1]。\n\n综上所述，业界普遍认为 RAG 和长上下文模型是互补关系而不是替代性的替代品。对于某些场景，使用 LLM 而不借助任何外部知识将更加方便简单；而在需要结合复杂文档信息或进行深度内容理解的应用中，则会更加倚重于RAG",
+      "faithfulness": 0.9,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.7,
+      "context_recall": 0.8
+    },
+    {
+      "question": "怎么评估RAG系统的好坏",
+      "answer": "要评估RAG系统的性能，可以使用RAGAS框架进行量化指标评估。该框架定义了四个核心指标：\n\n1. **忠实度（Faithfulness）**：生成的回答能否在检索到的上下文中找到依据。如果模型编造了文档中没有的事实，则会降低忠实度。\n\n2. **答案相关性（Answer Relevancy）**：生成的答案与原始查询的相关程度，偏离主题的回答得分低。\n\n3. **上下文精度（Context Precision）**：从检索结果中所挑选的信息部分对回答真正有用的比例。噪声越小，精准度越高。\n\n4. **上下文召回率（Context Recall）**：回答所需的信息有多少被检索到的文档覆盖了。",
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.8,
+      "context_precision": 0.3,
+      "context_recall": 0.8
+    },
+    {
+      "question": "Python异步编程中协程和线程有什么区别",
+      "answer": "在 Python 异步编程中，协程与线程之间有明显的区别。协程（Coroutine）是用 `async def` 定义的函数[1]，而线程是多任务处理的一种方法，可以并行执行不同的程序部分以提高效率。\n\n具体来说，协程的核心优势在于它可以高效地处理 I/O 密集型和长时间阻塞的操作，并通过使用较小资源负载实现非阻塞通信。协程在事件循环中调度执行，在等待异步操作（如网络请求、I/O 操作等）时不会阻塞整个程序[1]。\n\n相比之下，线程是操作系统中的一个轻量级实体，允许多线程应用程序内的任务并发执行。多线程可以帮助实现处理器密集型操作的并行化处理速度，不过线程也会增加额外的上下文切换开销[2]。\n",
+      "faithfulness": 0.7,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.0,
+      "context_recall": 0.1
+    },
+    {
+      "question": "FastAPI的依赖注入是怎么工作的",
+      "answer": "FastAPI 的依赖注入系统（`Depends`）可以让每个路由函数声明所需依赖，并由 FastAPI 自动解析依赖关系并注入参数。这些依赖项与请求绑定，意味着它们在请求过程中是共享的[1]。\n\n例如，一个典型的数据库会话依赖如下：\n\n```python\nasync def get_db():\n    async with AsyncSessionLocal() as session:\n        yield session\n```\n\n函数内部的代码会在请求开始时执行，并在处理整个请求期间生成 `session` 对象。这保证了同一个请求内的多次 `Depends` 调用共享相同的数据库",
+      "faithfulness": 0.8,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.0,
+      "context_recall": 0.7
+    },
+    {
+      "question": "LangChain的LCEL管道符是怎么用的",
+      "answer": "LangChain 的 LCEL 管道操作符（|）将各个组件串联成一个处理链，基本语法如下：\n```\nchain = prompt | llm | output_parser\n```\n其中：\n- `prompt` 生成提示文本；\n- `llm` 利用大语言模型对提示进行处理；\n- `output_parser` 解析输出结果。\n\n左侧组件的输出会作为右侧组件的输入，如果类型不匹配，则会在运行时抛出异常 [1]。使用这种语法可以构建一个声明式、可组合并且能自动并行执行的链式调用结构。\n\n此外，LCEL 链还支持流化（通过 `.stream()` 方法）和异步操作（通过 `.ainvoke()` ",
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.8,
+      "context_precision": 0.0,
+      "context_recall": 0.8
+    },
+    {
+      "question": "民法典里合同订立需要什么条件",
+      "answer": "根据《中华人民共和国民法典》合同编的相关规定，合同订立应满足以下基本条件：\n\n1. 行为人具有相应的民事行为能力；\n2. 意思表示真实；\n3. 不违反法律、行政法规的强制性规定，不违背公序良俗。\n\n具体而言，在订立合同时，需要包含要约与承诺两个核心要素。此外，构成有效合同的情况还包括：\n- 要约：当事人一方希望与对方就特定事项达成协议的意思表示，该意思表示应内容具体确定，并表明一旦被受要约人接受即对其产生约束力。\n- 承诺：受要约人同意要约的意思表示。\n\n值得注意的是，某些公告如拍卖公告、招标公告或招股说明书通常被视为要约邀请而非要约本身。但当商业广告的内容具备要约条件时，则可视为要约。[1]",
+      "faithfulness": 0.7,
+      "answer_relevancy": 0.7,
+      "context_precision": 0.0,
+      "context_recall": 0.8
+    },
+    {
+      "question": "合同解除后有什么法律后果",
+      "answer": "根据提供的参考文档，合同解除后可能会产生以下几方面的法律后果：\n\n1. **未履行部分终止履行**：对于尚未执行的部分，将停止继续履行。\n2. **已履行部分恢复原状或采取其他补救措施**：双方可以根据已有的履约情况和合同的性质，请求恢复到合同签订前的状态，或者采取其他的补救手段。\n3. **赔偿损失的权利**：解除方有权向违约方提出赔偿损失的要求。\n\n具体条款如下：\n“合同解除后，尚未履行的终止履行；已经履行的，根据履行情况和合同性质，当事人可以请求恢复原状或者采取其他补救措施，并有权请求赔偿损失。合同因违约解除的，解除权人可以请求违约方承担违约责任。” [1]",
+      "faithfulness": 0.8,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.0,
+      "context_recall": 0.3
+    },
+    {
+      "question": "新能源汽车的动力电池有哪些主流技术路线",
+      "answer": "新能源汽车的动力电池主要有以下几种主流技术路线：\n\n1. **液态锂离子电池**：这类电池是当前应用最广泛的技术，具有较高的能量密度和较好的循环寿命。然而，它们的安全隐患仍是一个重要问题，尤其是电解质的易燃性可能会导致热失控现象，在长时间或高温条件下存在自燃的风险。\n\n2. **固态电池**：这种技术的目标是进一步提高安全性能并提升能量密度。但由于界面阻抗较大以及大规模生产工艺尚未成熟，目前大规模产业化面临的主要挑战在于实际应用中的成本控制技术和规模化生产技术问题。预计其量产可能在2027-2030年之间实现[1]。\n\n这两类电池的技术路线中，液态锂离子电池虽然解决了固态电池部分材料、工艺问题",
+      "faithfulness": 0.8,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "800V高压平台有什么优势",
+      "answer": "800V高压平台的核心优势包括：\n\n1. **相同功率下电流减半**，这有助于减少线束损耗至四分之一。\n2. **充电速度显著提升**。充电功率可达350-480kW，能够实现从10%到80%的电量在15-20分钟内充满[1]。\n\n这些优势共同提高了电机的效率和新能源汽车的整体性能。",
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.7,
+      "context_precision": 0.3,
+      "context_recall": 0.7
+    },
+    {
+      "question": "杜邦分析法把ROE拆成了哪三个部分",
+      "answer": "杜邦分析法将净资产收益率（ROE）拆解为三个部分：\n\n1. 净利润率；\n2. 总资产周转率；  \n3. 权益乘数。\n\n具体公式如下：\n\\[ ROE = \\frac{净利润}{营收} \\times \\frac{营收}{总资产} \\times \\frac{总资产}{净资产} \\]",
+      "faithfulness": 0.8,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.0,
+      "context_recall": 0.7
+    },
+    {
+      "question": "怎么通过财务报表识别公司造假",
+      "answer": "识别公司是否存在财务报表造假需要综合分析多个方面，参考文献中提供的信息并没有直接提及如何具体排查财务报表造假的问题。但是基于财务报表的核心逻辑和内容，我们可以从以下几个方面入手：\n\n1. **资产负债表分析**：\n   - 检查资产、负债及所有者权益的明细项是否有异常波动。\n   - 观察是否存在账面上巨大的虚增资产或大幅度增加负债的问题。\n\n2. **利润表分析**：\n   - 评估主要财务指标，如毛利率与净利率。如果这些比率存在显著偏离行业平均水平的情况且无合理解释，则可能是虚假报表的表现之一[1]。\n   - 查看非经常性损益项目是否有异常变化，这类变动若显得过于离谱，可能暗示了公司通过",
+      "faithfulness": 0.7,
+      "answer_relevancy": 0.7,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    },
+    {
+      "question": "高血压的血压分级标准是什么",
+      "answer": "根据《中国高血压防治指南（2024 年修订版）》，血压分级标准如下：\n\n- 正常血压：SBP < 120 且 DBP < 80\n- 正常高值：SBP 120-139 或 DBP 80-89\n- 1 级高血压（轻度）：SBP 140-159 或 DBP 90-99\n- 2 级高血压（中度）：SBP 160-179 或 DBP 100-109\n- 3 级高血压（重度）：SBP ≥ 180 或 DBP ≥ 110\n- 单纯收缩期高血压：SBP ≥ 140 且 DBP < 90\n\n以上信息摘自 [1]。",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7,
+      "context_precision": 0.7,
+      "context_recall": 0.8
+    },
+    {
+      "question": "ACEI类降压药有哪些禁忌症",
+      "answer": "ACEI类降压药物（如卡托普利、依那普利、培哚普利）的主要禁忌症包括：\n\n1. 双侧肾动脉狭窄；\n2. 高钾血症；\n3. 妊娠期。[1]",
+      "faithfulness": 1.0,
+      "answer_relevancy": 1.0,
+      "context_precision": 0.0,
+      "context_recall": 0.3
+    },
+    {
+      "question": "2024版高血压指南有什么重要更新",
+      "answer": "2024版高血压指南的重要更新要点如下：\n\n1. **新增\"强化降压\"理念**：对于心血管风险高危人群，即使在可耐受的前提下，也将血压目标设定为<130/80 mmHg。这一调整旨在进一步降低高血压患者的中风、心脏病等并发症的风险。\n\n2. **去肾交感神经术（RDN）首次获得明确推荐**：该技术被列为药物治疗效果不佳或患者无法耐受情况下的二线介入治疗方法。这表明针对难治性高血压，除了传统药物和生活方式干预外，医生们有了更多可选择的手段。\n\n3. **家庭自测血压与远程监测的重要性提升**：《2024年指南》强调了诊室外血压测量在诊断及治疗过程中的价值，并将这两种方式的推荐级别从 IIa 级提",
+      "faithfulness": 0.7,
+      "answer_relevancy": 0.7,
+      "context_precision": 0.3,
+      "context_recall": 0.6
+    },
+    {
+      "question": "ReAct Agent和OpenAI Functions Agent有什么区别",
+      "answer": "ReAct Agent 和 OpenAI Functions Agent 主要区别在于它们的工作流程以及如何与外部工具互动：\n\n1. **工作模式**：\n   - ReAct Agent 采用经典的交替进行 Thought（推理）→ Action（调用工具）→ Observation（观察结果），直到得出 Final Answer 的模式。这种方法透明可控，但每次操作都会完整记录在推理中，可能会消耗较多的 tokens。\n   \n2. **函数执行与集成方式**：\n   - OpenAI Functions Agent 则是通过预先定义好的函数来与外部数据源或工具交互。它能够自动将 LLM 生",
+      "faithfulness": 0.7,
+      "answer_relevancy": 0.8,
+      "context_precision": 0.0,
+      "context_recall": 0.3
+    },
+    {
+      "question": "BM25算法的k1和b参数各控制什么",
+      "answer": "在检索算法中，BM25是一种常用的关键词匹配算法。它通过调整两个关键参数来优化搜索结果的相关性，分别是：\n\n- **k1**：此参数影响了对文档中词频的权衡（Term Frequency, TF）。具体来说，k1 越大，表示模型越重视文档中的高频词 [2]。\n- **b**：这是对平均文档长度的比例因子（Proportion over Average Document Length, IDF）。当 b 增加时，BM25将更倾向于选择较长的文档 [2]。\n\n这两个参数是通过实验和经验调整来优化检索精度的关键元素。[1] 描述了如何结合 BM25 等检索算法与 LLM 生成模型互补不足，以提高整体",
+      "faithfulness": 0.3,
+      "answer_relevancy": 0.7,
+      "context_precision": 0.0,
+      "context_recall": 0.0
+    }
+  ]
+}
